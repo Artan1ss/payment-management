@@ -1,0 +1,68 @@
+
+<div class="container">
+
+  <h2>Payment Management</h2>
+
+  <div class="search">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Search by name..." />
+    <button (click)="onSearch()">Search</button>
+  </div>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Address</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Postal Code</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Currency</th>
+        <th>Due Amount</th>
+        <th>Discount %</th>
+        <th>Tax %</th>
+        <th>Status</th>
+        <th>Added Date</th>
+        <th>Due Date</th>
+        <th>Total Due</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pay of payments">
+        <td>{{ pay.payee_first_name }}</td>
+        <td>{{ pay.payee_last_name }}</td>
+        <td>{{ pay.payee_address_line_1 }}</td>
+        <td>{{ pay.payee_city }}</td>
+        <td>{{ pay.payee_country }}</td>
+        <td>{{ pay.payee_postal_code }}</td>
+        <td>{{ pay.payee_phone_number }}</td>
+        <td>{{ pay.payee_email }}</td>
+        <td>{{ pay.currency }}</td>
+        <td>${{ pay.due_amount.toFixed(2) }}</td>
+        <td>{{ (pay.discount_percent ?? 0).toFixed(2) }}%</td>
+        <td>{{ (pay.tax_percent ?? 0).toFixed(2) }}%</td>
+        <td>{{ pay.payee_payment_status }}</td>
+        <td>{{ pay.payee_added_date_utc | date: 'MMM d, y, h:mm a' }}</td>
+        <td>{{ pay.payee_due_date | date: 'yyyy-MM-dd' }}</td>
+        <td>${{ (pay.total_due ?? 0).toFixed(2) }}</td>
+        <td>
+          <button [routerLink]="['/edit', pay._id]">Edit</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="onPageChange('prev')" [disabled]="page === 0">Prev</button>
+    <span>Page {{ page + 1 }} of {{ totalCount }}</span>
+    <button (click)="onPageChange('next')" [disabled]="(page + 1) * limit >= totalCount">
+      Next
+    </button>
+  </div>
+  <button routerLink="/add" style="margin-top: 16px;">
+    Create Payment
+  </button>
+</div>
