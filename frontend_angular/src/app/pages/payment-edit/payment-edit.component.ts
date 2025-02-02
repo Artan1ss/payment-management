@@ -13,7 +13,7 @@ export class PaymentEditComponent implements OnInit {
   paymentId!: string;
   payment!: Payment;
   fileToUpload?: File;
-  private baseUrl = "https://payment-management-production.up.railway.app/"
+  private baseUrl = "https://payment-management-production.up.railway.app"
   constructor(
     private route: ActivatedRoute,
     private router: Router,
