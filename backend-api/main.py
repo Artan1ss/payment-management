@@ -30,7 +30,7 @@ class PaymentUpdateModel(BaseModel):
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=['https://payment-management-production.up.railway.app',"https://payment-management-omega.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
