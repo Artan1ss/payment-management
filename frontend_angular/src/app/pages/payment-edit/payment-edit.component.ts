@@ -23,7 +23,7 @@ export class PaymentEditComponent implements OnInit {
   ngOnInit(): void {
     const paymentId = this.route.snapshot.paramMap.get('id');
     if (paymentId) {
-      this.paymentId = paymentId;  // Store the id for later use
+      this.paymentId = paymentId;  
       this.loadPayment(paymentId);
     }
   }
@@ -45,14 +45,12 @@ export class PaymentEditComponent implements OnInit {
 
   onStatusChange() {
     if (this.payment.payee_payment_status === 'completed' && !this.payment.evidence_file_id) {
-      // Prompt user to upload a file
       alert('Please upload an evidence file if you want to complete this payment.');
     }
   }
 
   updatePayment() {
-    // If user is setting status to completed and there's no existing evidence,
-    // but we have a new file, we must upload it first.
+
     if (this.payment.payee_payment_status === 'completed' &&
         !this.payment.evidence_file_id &&
         !this.fileToUpload) {
@@ -68,13 +66,11 @@ export class PaymentEditComponent implements OnInit {
     if (this.payment.payee_payment_status === 'completed' && this.fileToUpload) {
       this.paymentsService.uploadEvidence(this.paymentId, this.fileToUpload).subscribe({
         next: () => {
-          // After the file is uploaded, perform the update.
           this._doUpdate();
         },
         error: (err) => alert('File upload failed: ' + err?.error?.detail)
       });
     } else {
-      // Otherwise, simply update the payment.
       this._doUpdate();
     }
   }
@@ -97,7 +93,6 @@ export class PaymentEditComponent implements OnInit {
   
   downloadFile() {
     if (this.payment && this.payment.evidence_file_id) {
-      // Use the payment's _id or paymentId to build the URL.
       const downloadUrl = `${this.baseUrl}/download_evidence/${this.payment._id}`;
       window.open(downloadUrl, '_blank');
     } else {

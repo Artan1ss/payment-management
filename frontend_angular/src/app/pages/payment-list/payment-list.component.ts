@@ -10,7 +10,7 @@ import { Payment } from 'src/app/models/payment.model';
 export class PaymentListComponent implements OnInit {
   payments: Payment[] = [];
   searchTerm: string = '';
-  page: number = 0; // We'll handle 0-based in the UI, but send page+1 to the API
+  page: number = 0; 
   limit: number = 5;
   totalCount: number = 0;
 
@@ -21,14 +21,12 @@ export class PaymentListComponent implements OnInit {
   }
 
   loadPayments() {
-    // The backend expects page >= 1, so send this.page + 1
     this.paymentsService.getPayments(this.searchTerm, this.page + 1, this.limit)
       .subscribe({
         next: (res) => {
-          // Make sure you log the response structure:
           console.log('Response from API:', res);
-          this.payments = res.payments  || [];      // Use the `payments` key
-          this.totalCount = res.total_count || 0;  // Use the `total_count` key
+          this.payments = res.payments  || [];      
+          this.totalCount = res.total_count || 0;  
           
         },
         error: (err) => {
@@ -38,7 +36,7 @@ export class PaymentListComponent implements OnInit {
   }
 
   onSearch() {
-    this.page = 0; // reset to first page whenever searching
+    this.page = 0; 
     this.loadPayments();
   }
 
@@ -58,7 +56,6 @@ export class PaymentListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this payment?')) {
       this.paymentsService.deletePayment(id).subscribe({
         next: () => {
-          // Reload after delete
           this.loadPayments();
         },
         error: (err) => {

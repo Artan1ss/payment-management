@@ -7,8 +7,8 @@ import { Payment } from '../models/payment.model';
   providedIn: 'root'
 })
 export class PaymentsService {
-  private baseUrl = 'https://payment-management-production.up.railway.app'; // Your FastAPI server
-
+  private baseUrl = 'https://payment-management-production.up.railway.app'; 
+  
   constructor(private http: HttpClient) {}
 
   getPayments(search = '', page = 0, limit = 5): Observable<{ payments: Payment[]; total_count: number }> {
@@ -32,7 +32,6 @@ export class PaymentsService {
   }
 
   getPaymentById(id: string): Observable<Payment> {
-    // Not implemented in the backend above, but you can create a GET /payments/{id} if needed
     return this.http.get<Payment>(`${this.baseUrl}/payments/${id}`);
   }
 

@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 import { PaymentListComponent } from './pages/payment-list/payment-list.component';
 import { PaymentAddComponent } from './pages/payment-add/payment-add.component';
 import { PaymentEditComponent } from './pages/payment-edit/payment-edit.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'payments', pathMatch: 'full' },
@@ -22,12 +25,15 @@ const routes: Routes = [
     PaymentListComponent,
     PaymentAddComponent,
     PaymentEditComponent
+    
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

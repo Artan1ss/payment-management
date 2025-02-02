@@ -3,8 +3,8 @@ export interface Payment {
     payee_first_name: string;
     payee_last_name: string;
     payee_payment_status: 'completed' | 'due_now' | 'overdue' | 'pending';
-    payee_added_date_utc: string; // or Date
-    payee_due_date: string;       // or Date
+    payee_added_date_utc: string; 
+    payee_due_date: string;      
     payee_address_line_1: string;
     payee_address_line_2?: string;
     payee_city: string;

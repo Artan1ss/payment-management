@@ -20,13 +20,11 @@
       </select>
     </div>
   
-    <!-- If user wants to complete payment, they can upload a file -->
     <div *ngIf="payment.payee_payment_status === 'completed' && !payment.evidence_file_id">
       <label>Upload Evidence (PNG/JPG/PDF):</label>
       <input type="file" (change)="handleFileInput($event)" />
     </div>
   
-    <!-- If evidence is available, show a download button -->
     <div *ngIf="payment.evidence_file_id">
       <button (click)="downloadFile()">Download Evidence</button>
     </div>

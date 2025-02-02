@@ -15,16 +15,14 @@ export class PaymentAddComponent {
     payee_payment_status: 'pending',
     payee_added_date_utc: new Date().toISOString(), // current UTC
   };
-  // Arrays for storing fetched data
   countryList: Array<{ name: string; code: string }> = [];
   currencyList: Array<{ name: string; currency: string }> = [];
 
-  // For optional filtering
   filteredCountries: Array<{ name: string; code: string }> = [];
   filteredCurrencies: Array<{ name: string; currency: string }> = [];
 
-  stateList: string[] = [];  // Once we pick a country, we fetch its states
-  cityList: string[] = [];   // Once we pick a state, we fetch its cities
+  stateList: string[] = [];  
+  cityList: string[] = [];   
   constructor(
     private paymentsService: PaymentsService,
     private router: Router,
@@ -33,7 +31,7 @@ export class PaymentAddComponent {
   ) {}
 
   ngOnInit(): void {
-    // Fetch countries and codes
+
     this.countriesService.getCountriesAndCodes().subscribe({
       next: (res) => {
         if (!res.error && res.data) {
@@ -44,7 +42,6 @@ export class PaymentAddComponent {
       error: (err) => console.error('Error fetching countries:', err)
     });
 
-    // Fetch countries and currencies
     this.countriesService.getCountriesWithCurrency().subscribe({
       next: (res) => {
         if (!res.error && res.data) {
@@ -128,7 +125,6 @@ export class PaymentAddComponent {
     }
 
   onSubmit() {
-    // Basic client-side validation
     if (!this.newPayment.payee_first_name || !this.newPayment.payee_last_name ||
         !this.newPayment.payee_address_line_1 || !this.newPayment.payee_city ||
         !this.newPayment.payee_country || !this.newPayment.payee_postal_code ||
