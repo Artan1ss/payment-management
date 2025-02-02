@@ -68,7 +68,7 @@ async def upload_evidence(payment_id: str, file: UploadFile = File(...)):
         {"_id": ObjectId(payment_id)},
         {"$set": {"payee_payment_status": "completed", "evidence_file_id": file_id.inserted_id}}
     )
-    download_link = f"http://127.0.0.1:8000/download_evidence/{payment_id}"
+    download_link = f"http://payment-management-production.up.railway.app/download_evidence/{payment_id}"
 
     return JSONResponse(
         content={
