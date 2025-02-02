@@ -25,15 +25,15 @@ ALLOWED_FILE_TYPES = {"application/pdf", "image/png", "image/jpeg"}
 
 class PaymentUpdateModel(BaseModel):
     payee_payment_status: str
-    payee_due_date: str  # Consider converting this to a date if needed
+    payee_due_date: str 
     due_amount: float
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['https://payment-management-production.up.railway.app',"https://payment-management-omega.vercel.app/"],
+    allow_origins=["https://payment-management-omega.vercel.app"],  
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"], 
+    allow_headers=["*"], 
 )
 # 1️⃣ **Upload Evidence File API**
 @app.post("/upload_evidence/{payment_id}")
