@@ -7,7 +7,7 @@ import { Payment } from '../models/payment.model';
   providedIn: 'root'
 })
 export class PaymentsService {
-  private baseUrl = 'http://localhost:8000'; // Your FastAPI server
+  private baseUrl = 'https://payment-management-production.up.railway.app'; // Your FastAPI server
 
   constructor(private http: HttpClient) {}
 
