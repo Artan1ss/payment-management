@@ -1,6 +1,7 @@
-from fastapi import FastAPI, File, UploadFile, Form, Query, HTTPException
+from fastapi import FastAPI, File, UploadFile, Request, Query, HTTPException
 from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.encoders import jsonable_encoder
+
 from datetime import datetime, date,timezone,time
 from pymongo import MongoClient
 from bson import ObjectId
@@ -68,7 +69,8 @@ async def upload_evidence(payment_id: str, file: UploadFile = File(...)):
         {"_id": ObjectId(payment_id)},
         {"$set": {"payee_payment_status": "completed", "evidence_file_id": file_id.inserted_id}}
     )
-    download_link = f"http://payment-management-production.up.railway.app/download_evidence/{payment_id}"
+    base_url = str(Request.base_url).rstrip("/")  # Remove trailing slash
+    download_link = f"{base_url}/download_evidence/{payment_id}"
 
     return JSONResponse(
         content={
