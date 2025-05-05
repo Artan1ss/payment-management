@@ -1,166 +1,144 @@
-<div class="container">
-  <h2>Add Payment</h2>
-  <form (ngSubmit)="onSubmit()" #addForm="ngForm">
+<div class="card max-w-4xl mx-auto">
+  <div class="border-b border-gray-200 pb-4 mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Add New Payment</h2>
+    <p class="text-sm text-gray-500 mt-1">Create a new payment record with payee information</p>
+  </div>
 
-    <div>
-      <label>First Name (required):</label>
-      <input
-        [(ngModel)]="newPayment.payee_first_name"
-        name="payee_first_name"
-        required
-      />
+  <form (ngSubmit)="onSubmit()" #addForm="ngForm" class="space-y-6">
+    <!-- Personal Information Section -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>First Name</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_first_name" name="payee_first_name" required>
+          <mat-error>First name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Last Name</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_last_name" name="payee_last_name" required>
+          <mat-error>Last name is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_email" name="payee_email" type="email" required>
+          <mat-error>Valid email is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Phone Number</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_phone_number" name="payee_phone_number" required>
+          <mat-hint>Use E.164 format (+1234567890)</mat-hint>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div>
-      <label>Last Name (required):</label>
-      <input
-        [(ngModel)]="newPayment.payee_last_name"
-        name="payee_last_name"
-        required
-      />
+    <!-- Address Section -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Address Information</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <mat-form-field appearance="outline" class="w-full md:col-span-2">
+          <mat-label>Address Line 1</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_address_line_1" name="payee_address_line_1" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full md:col-span-2">
+          <mat-label>Address Line 2 (Optional)</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_address_line_2" name="payee_address_line_2">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Country</mat-label>
+          <mat-select [(ngModel)]="newPayment.payee_country" name="country" (selectionChange)="onCountryChange(newPayment.payee_country)" required>
+            <mat-option value="" disabled>Select Country</mat-option>
+            <mat-option *ngFor="let c of countryList" [value]="c.name">
+              {{ c.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Province/State</mat-label>
+          <mat-select [(ngModel)]="newPayment.payee_province_or_state" name="payee_province_or_state" (selectionChange)="onStateChange(newPayment.payee_province_or_state)" required>
+            <mat-option value="" disabled>Select Province/State</mat-option>
+            <mat-option *ngFor="let s of stateList" [value]="s">
+              {{ s }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>City</mat-label>
+          <mat-select [(ngModel)]="newPayment.payee_city" name="city" required>
+            <mat-option value="" disabled>Select City</mat-option>
+            <mat-option *ngFor="let c of cityList" [value]="c">
+              {{ c }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Postal Code</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_postal_code" name="payee_postal_code" required>
+        </mat-form-field>
+      </div>
     </div>
 
+    <!-- Payment Details Section -->
+    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Payment Details</h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Currency</mat-label>
+          <mat-select [(ngModel)]="newPayment.currency" name="currency" required>
+            <mat-option value="" disabled>Select Currency</mat-option>
+            <mat-option *ngFor="let c of currencyList" [value]="c.currency">
+              {{ c.currency }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <div>
-      <label>Address Line 1 (required):</label>
-      <input
-        [(ngModel)]="newPayment.payee_address_line_1"
-        name="payee_address_line_1"
-        required
-      />
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Due Amount</mat-label>
+          <input matInput [(ngModel)]="newPayment.due_amount" name="due_amount" type="number" step="0.01" required>
+          <span matPrefix>$&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Discount (%)</mat-label>
+          <input matInput [(ngModel)]="newPayment.discount_percent" name="discount_percent" type="number" step="0.01">
+          <span matSuffix>%</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Tax (%)</mat-label>
+          <input matInput [(ngModel)]="newPayment.tax_percent" name="tax_percent" type="number" step="0.01">
+          <span matSuffix>%</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Due Date</mat-label>
+          <input matInput [(ngModel)]="newPayment.payee_due_date" name="dueDate" [matDatepicker]="picker" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
     </div>
 
-
-    <div>
-      <label>Address Line 2 (optional):</label>
-      <input
-        [(ngModel)]="newPayment.payee_address_line_2"
-        name="payee_address_line_2"
-      />
+    <!-- Form Actions -->
+    <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200">
+      <button mat-stroked-button type="button" routerLink="/payments" class="px-6">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!addForm.form.valid" class="px-6">
+        Create Payment
+      </button>
     </div>
-
-
-    <div>
-      <label>Postal Code (required):</label>
-      <input
-        [(ngModel)]="newPayment.payee_postal_code"
-        name="payee_postal_code"
-        required
-      />
-    </div>
-
-    <div>
-      <label>Country:</label>
-      <select
-        [(ngModel)]="newPayment.payee_country"
-        name="country"
-        (change)="onCountryChange(newPayment.payee_country)">
-        <option value="" disabled>Select Country</option>
-        <option *ngFor="let c of countryList" [value]="c.name">
-          {{ c.name }}
-        </option>
-      </select>
-    </div>
-        
-
-    <div>
-      <label>Province/State:</label>
-      <select
-        [(ngModel)]="newPayment.payee_province_or_state"
-        name="payee_province_or_state"
-        (change)="onStateChange(newPayment.payee_province_or_state)"
-      >
-        <option value="" disabled selected>Select Province/State</option>
-        <option *ngFor="let s of stateList" [value]="s">
-          {{ s }}
-        </option>
-      </select>
-    </div>
-
-    <div>
-      <label>City:</label>
-      <select [(ngModel)]="newPayment.payee_city" name="city">
-        <option value="" disabled selected>Select City</option>
-        <option *ngFor="let c of cityList" [value]="c">
-          {{ c }}
-        </option>
-      </select>
-    </div>
-
-
-    <div>
-      <label>Phone Number (required, E.164):</label>
-      <input
-        [(ngModel)]="newPayment.payee_phone_number"
-        name="payee_phone_number"
-        required
-      />
-    </div>
-
-    <div>
-      <label>Payee Email (required):</label>
-      <input
-        [(ngModel)]="newPayment.payee_email"
-        name="payee_email"
-        type="email"
-        required
-      />
-    </div>
-
-    <div>
-      <label>Currency:</label>
-      <select [(ngModel)]="newPayment.currency" name="currency">
-        <option value="" disabled>Select Currency</option>
-        <option *ngFor="let c of currencyList" [value]="c.currency">
-          {{ c.currency }}
-        </option>
-      </select>
-    </div>
-    
-    <div>
-      <label>Discount (%) (optional):</label>
-      <input
-        [(ngModel)]="newPayment.discount_percent"
-        name="discount_percent"
-        type="number"
-        step="0.01"
-      />
-    </div>
-
-    <div>
-      <label>Tax (%) (optional):</label>
-      <input
-        [(ngModel)]="newPayment.tax_percent"
-        name="tax_percent"
-        type="number"
-        step="0.01"
-      />
-    </div>
-
-    <div>
-      <label>Due Date (YYYY-MM-DD):</label>
-      <input
-        [(ngModel)]="newPayment.payee_due_date"
-        name="dueDate"
-        type="date"
-        required
-      />
-    </div>
-
-    <div>
-      <label>Due Amount (required):</label>
-      <input
-        [(ngModel)]="newPayment.due_amount"
-        name="due_amount"
-        type="number"
-        step="0.01"
-        required
-      />
-    </div>
-
-
-    <button (click)="onSubmit()">Submit Payment</button>
-    <button type="button" routerLink="/payments">Cancel</button>
   </form>
 </div>
 

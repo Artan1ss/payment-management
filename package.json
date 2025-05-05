@@ -1,0 +1,13 @@
+{
+  "name": "payment-management",
+  "version": "1.0.0",
+  "description": "Payment Management System",
+  "scripts": {
+    "start": "cd frontend_angular && ng serve",
+    "build": "cd frontend_angular && ng build",
+    "test": "cd frontend_angular && ng test",
+    "backend": "cd backend-api && npm start"
+  },
+  "author": "",
+  "license": "ISC"
+} 
